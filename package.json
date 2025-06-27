@@ -2,5 +2,25 @@
   "name": "sensopt-datapoint-processing-adapter",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "prestart": "npm run build",
+    "start": "node --env-file=.env dist/index.js",
+    "build": "rm -rf dist && tsc",
+    "prezip": "cp package.json dist/package.json && cd dist && npm install --omit=dev",
+    "zip": "rm -rf sensopt-datapoint-processing-adapter.zip && cd dist && zip -r ../sensopt-datapoint-processing-adapter.zip . -x '*.git*'",
+    "dev:zip": "npm run prezip && rm -rf dev-sensopt-datapoint-processing-adapter.zip && cd dist && zip -r ../dev-sensopt-datapoint-processing-adapter.zip . -x '*.git*'",
+    "prod:zip": "npm run prezip && rm -rf prod-sensopt-datapoint-processing-adapter.zip && cd dist && zip -r ../prod-sensopt-datapoint-processing-adapter.zip . -x '*.git*'"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.17.19",
+    "lodash": "^4.17.21",
+    "pg": "^8.16.2",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.25",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.4"
+  }
 }
