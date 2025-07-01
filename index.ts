@@ -46,6 +46,9 @@ export const handler = async (event: any) => {
     const batchItemFailures: { itemIdentifier: string }[] = [];
 
     for (const record of event.Records) {
+
+        console.log(`Record: ${JSON.stringify(record)}`)
+
         try {
             await processService.process(record);
         } catch (error: any) {
