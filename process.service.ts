@@ -25,6 +25,11 @@ export class ProcessService {
 
         let validTimezone;
 
+        console.log(body)
+
+        console.log(isConnected)
+        console.log(timezone)
+        console.log(tzOffset)
         console.log(data)
 
         const { sensor, datapoint } = data;
