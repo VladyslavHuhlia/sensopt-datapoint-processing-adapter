@@ -32,6 +32,8 @@ const getDataSource = async (): Promise<DataSource> => {
 
 export const handler = async (event: any) => {
 
+    console.log('Here to process')
+
     const ds = await getDataSource();
 
     const datapointService = new DataPointsService(ds);
@@ -47,6 +49,7 @@ export const handler = async (event: any) => {
         try {
             await processService.process(record);
         } catch (error) {
+            console.log(error.stack)
             batchItemFailures.push({ itemIdentifier: record.messageId });
         }
     }
