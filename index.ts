@@ -48,8 +48,8 @@ export const handler = async (event: any) => {
     for (const record of event.Records) {
         try {
             await processService.process(record);
-        } catch (error) {
-            console.log(error.stack)
+        } catch (error: any) {
+            console.log(error?.stack)
             batchItemFailures.push({ itemIdentifier: record.messageId });
         }
     }
