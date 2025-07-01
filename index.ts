@@ -47,8 +47,6 @@ export const handler = async (event: any) => {
 
     for (const record of event.Records) {
 
-        console.log(`Record: ${JSON.stringify(record)}`)
-
         try {
             await processService.process(record);
         } catch (error: any) {

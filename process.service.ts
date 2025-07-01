@@ -19,18 +19,11 @@ export class ProcessService {
 
     async process(message: any) {
 
-        const body = message.body
+        const body = JSON.parse(message.body)
 
         const { isConnected, data, timezone, tzOffset } = body;
 
         let validTimezone;
-
-        console.log(body)
-
-        console.log(isConnected)
-        console.log(timezone)
-        console.log(tzOffset)
-        console.log(data)
 
         const { sensor, datapoint } = data;
 
