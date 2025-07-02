@@ -91,6 +91,9 @@ export class ProcessService {
                         sensor.units === 'V'
                     ) {
 
+                        console.log(`Original sensor units: ${sensor.units}`)
+                        console.log(`Original sensor name: ${sensor.name}`)
+
                         if (sensor.units === 'F' || sensor.units === 'fahrenheit') {
                             val = (datapoint.value - 32) * (5 / 9);
                         } else if (sensor.units === 'millibar') {
