@@ -63,6 +63,8 @@ export class ProcessService {
                 if (retrievedSensor && datapoint) {
                     const timestamp = new Date(datapoint.timestamp);
 
+                    console.log(`Sensor: ${JSON.stringify(retrievedSensor)}`)
+
                     if (!timezone) {
                         validTimezone = getTimezoneFromOffset(tzOffset);
                     } else {
