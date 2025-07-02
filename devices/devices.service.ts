@@ -10,20 +10,18 @@ export class DevicesService {
     }
 
     async update(id: string, dto: DeepPartial<Device>) {
+
         const where: FindOptionsWhere<Device> = { id };
 
         try {
-            const { raw: returned } = (await this.repository
+            await this.repository
                 .createQueryBuilder()
                 .update()
                 .where(where)
                 .set(dto)
-                .execute()) as UpdateResult;
-
-            if (!returned.length) {
-                console.warn(`Device not found by id = ${id}`);
-            }
-        } catch (e) {
+                .execute()
+        } catch (e: any) {
+            console.error(e.stack)
             throw e
         }
     }

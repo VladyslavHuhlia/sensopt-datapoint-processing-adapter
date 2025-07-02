@@ -82,11 +82,12 @@ export class ProcessService {
 
                     let val;
 
+                    console.log(`Original datapoint value: ${datapoint.value}`)
+
                     if (
                         sensor.units !== retrievedSensor.sensorType?.units ||
                         sensor.units === 'V'
                     ) {
-                        console.log('Here');
 
                         if (sensor.units === 'F' || sensor.units === 'fahrenheit') {
                             val = (datapoint.value - 32) * (5 / 9);
