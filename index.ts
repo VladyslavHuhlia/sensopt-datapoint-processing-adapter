@@ -20,6 +20,9 @@ const getDataSource = async (): Promise<DataSource> => {
             entities: [DataPoint, Device, Sensor, SensorType],
             logging: ["error", "warn"],
             synchronize: false,
+            ssl: {
+                rejectUnauthorized: false,
+            }
         });
 
         if (!dataSource.isInitialized) {
