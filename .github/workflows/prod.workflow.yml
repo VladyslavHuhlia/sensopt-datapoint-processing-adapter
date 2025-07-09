@@ -1,0 +1,54 @@
+name: Deploy Lambda
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2 # To fetch the current commit and its parent (so we can compare)
+
+      - name: Setup AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2 # Modify this to your desired AWS region
+
+      - name: Print changed files # To properly debug what is being deployed (It can be removed).
+        run: |
+          echo "List of changed files:" 
+          echo $(git diff --name-only HEAD^ HEAD)
+      - name: Install dependencies
+        run: npm i
+      - name: Build app # Build the app
+        run: npm run build
+      - name: Create new zip # To properly debug what is being deployed (It can be removed).
+        run: npm run prod:zip
+      - name: Debug - List Files
+        run: ls -lah
+      - name: Deploy Modified Lambda
+        run: |
+          
+          # Constants
+          S3_BUCKET=device-adapter-lambda-source-code
+          S3_KEY=prod-sensopt-datapoint-processing-adapter.zip
+          LAMBDA_FUNCTION_NAME=prod-sensopt-datapoint-processing-adapter
+          
+          # Upload the updated zip to S3
+          aws s3 cp prod-sensopt-datapoint-processing-adapter.zip s3://$S3_BUCKET/$S3_KEY
+          
+          # Update Lambda function code
+          aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --s3-bucket $S3_BUCKET --s3-key $S3_KEY
+          
+          # Cleanup
+          rm -rf dist
+          rm -rf node_modules
+          rm prod-sensopt-datapoint-processing-adapter.zip
